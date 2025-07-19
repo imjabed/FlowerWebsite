@@ -20,8 +20,12 @@ app.use('/uploads', express.static('uploads'));
 
 
 
-mongoose.connect(process.env.DATABASEURL)
-.then( ()=> {console.log('Database is connected')})
-.catch( (err)=>{console.log('Database failed to connect')})
+mongoose.connect(process.env.DATABASEURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected"))
+.catch(err => console.error("MongoDB connection failed:", err.message));
+
 
 module.exports = app;
