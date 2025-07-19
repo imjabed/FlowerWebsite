@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body{
+    background-color: rgba(255, 192, 203, 0.634);
+}
+
+.banner h3{
+    /* font-family: "Love Light", cursive;  */
+    font-weight: 400;
+    font-size: 70px;
+}
+
+.banner button{
+    cursor: pointer;
+}
