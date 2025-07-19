@@ -11,10 +11,9 @@ import GenderToggle from "./GenderToggle";
 import CustomizeForm from './CustomizeForm';
 
 function Home(){
-
-    const deployedurl = process.env.REACT_APP_BACKEND_URL;
-
-    const localurl = "http://localhost:5678/";
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    
+    const localurl='http://localhost:5678';
 
     useLenis(); 
     const [gender, setGender] = useState("her");
