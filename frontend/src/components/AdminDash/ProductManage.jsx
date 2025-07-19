@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function ProductManage() {
+  const deployedurl = import.meta.env.VITE_BACKEND_URL;
+  const localurl='http://localhost:5678';
   const [products, setProducts] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -11,7 +13,7 @@ function ProductManage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5678/api/products/show", {
+      const res = await axios.get(`${deployedurl}/api/products/show`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(res.data);
@@ -24,7 +26,7 @@ function ProductManage() {
   const deleteProduct = async(id) => {
     if(!window.confirm("Are you sure you want to delete the product?")) return;
     try{
-      await axios.delete(`http://localhost:5678/api/products/delete/${id}`,{
+      await axios.delete(`${deployedurl}/api/products/delete/${id}`,{
         headers:{
           Authorization : `Bearer ${token}`
         }
@@ -134,7 +136,7 @@ const handleAddProduct = async (e) => {
       }
     }
 
-    await axios.post("http://localhost:5678/api/products/add", data, {
+    await axios.post(`${deployedurl}/api/products/add`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

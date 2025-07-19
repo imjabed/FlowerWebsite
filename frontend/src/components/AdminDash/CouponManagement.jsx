@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function CouponManagement() {
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
+
     const [coupons, setCoupons] = useState([]);
     const [form, setForm] = useState({
     name: "",
@@ -15,7 +18,7 @@ function CouponManagement() {
 
     const fetchCoupons = async () => {
     try {
-        const res = await axios.get("http://localhost:5678/api/coupon/showcoupon");
+        const res = await axios.get(`${deployedurl}/api/coupon/showcoupon`);
         setCoupons(res.data);
     } catch (err) {
         console.error("Error fetching coupons:", err);
@@ -39,7 +42,7 @@ function CouponManagement() {
         return alert("Percentage Cannot Exceed 100%")
       }
       if(!form.category) { form.category = 'all'}
-      await axios.post("http://localhost:5678/api/coupon/addcoupon", form);
+      await axios.post(`${deployedurl}/api/coupon/addcoupon`, form);
       fetchCoupons();
       setForm({ name: "", code: "", discountType: "amount", discountValue: "", category: "", gender: "Him", isActive: true,});
     } catch (err) {
@@ -48,12 +51,12 @@ function CouponManagement() {
   };
 
   const toggleStatus = async (id) => {
-    await axios.patch(`http://localhost:5678/api/coupon/${id}`);
+    await axios.patch(`${deployedurl}/api/coupon/${id}`);
     fetchCoupons();
   };
 
   const deleteCoupon = async (id) => {
-    await axios.delete(`http://localhost:5678/api/coupon/${id}`);
+    await axios.delete(`${deployedurl}/api/coupon/${id}`);
     fetchCoupons();
   };
 

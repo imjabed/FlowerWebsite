@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
 function Profile() {
+  const deployedurl = import.meta.env.VITE_BACKEND_URL;
+  const localurl='http://localhost:5678';
+  
   const [user, setUser] = useState({});
   const [formData, setFormData] = useState({ name: "", phone: "" });
   const [file, setFile] = useState(null);
@@ -26,7 +29,7 @@ function Profile() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await axios.put("http://localhost:5678/api/user/update-profile", data, {
+      const res = await axios.put(`${deployedurl}/api/user/update-profile`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"

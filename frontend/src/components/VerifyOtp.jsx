@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function VerifyOtp () {
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
+    
     const [Otp, setOtp] = useState('')
     const Location = useLocation();
     const navigate = useNavigate();
@@ -18,7 +21,7 @@ function VerifyOtp () {
             return;
         }
         try{
-            const res = await axios.post("http://localhost:5678/api/auth/verify-otp", { email, otp: Otp })
+            const res = await axios.post(`${deployedurl}/api/auth/verify-otp`, { email, otp: Otp })
 
             setTimeout(() => {
                 alert(res.data.message);

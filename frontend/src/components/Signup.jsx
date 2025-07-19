@@ -4,6 +4,9 @@ import {Link, useNavigate} from 'react-router-dom'
 import Navbar from './Navbar'
 
 function Signup(){
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
+
     const [formData,setformData] = useState({name:"", email:"", password:"", phone:""});
     const handleChange = (e) => { setformData({...formData, [e.target.name]:e.target.value})}
     const navigate = useNavigate();
@@ -11,7 +14,7 @@ function Signup(){
         e.preventDefault();
         setloading(true);
         try{
-            await axios.post('http://localhost:5678/api/auth/signup', formData);
+            await axios.post(`${deployedurl}/api/auth/signup`, formData);
             navigate('/verifyotp', { state: { email: formData.email } });
         }
         catch(err)

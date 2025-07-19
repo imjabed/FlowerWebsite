@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import axios from "axios"
 function Login(){
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
     const [formData,setFormdata] = useState({})
     const navigate = useNavigate()
     const handleChange = (e) =>{ setFormdata({...formData, [e.target.name]:e.target.value})}
     const handleSubmit = async(e) =>{
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:5678/api/auth/login", formData);
+            const res = await axios.post(`${deployedurl}/api/auth/login`, formData);
             localStorage.setItem("user", JSON.stringify(res.data.user));
             localStorage.setItem("token", res.data.token);
 

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Order() {
+  const deployedurl = import.meta.env.VITE_BACKEND_URL;
+  const localurl='http://localhost:5678';
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState([]);
@@ -19,7 +21,7 @@ function Order() {
   useEffect(() => {
     const fetchcoupons = async () => {
       try {
-        const res = await axios.get("http://localhost:5678/api/coupon/showcoupon");
+        const res = await axios.get(`${deployedurl}/api/coupon/showcoupon`);
         setCoupon(res.data);
       } catch (err) {
         console.error("Error fetching coupons:", err);
@@ -71,7 +73,7 @@ function Order() {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5678/api/cart', {
+        const res = await axios.get(`${deployedurl}/api/cart`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -115,14 +117,14 @@ function Order() {
     try {
       if (itemToRemove.productId) {
         // It's a regular product
-        await axios.delete(`http://localhost:5678/api/cart/item/${itemToRemove._id}`, {
+        await axios.delete(`${deployedurl}/api/cart/item/${itemToRemove._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
       } else {
         // It's a custom bouquet
-        await axios.delete(`http://localhost:5678/api/cart/custom/${itemToRemove._id}`, {
+        await axios.delete(`${deployedurl}/api/cart/custom/${itemToRemove._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -149,7 +151,7 @@ function Order() {
         paymentMode,
         deliveryAddress: formData,
       };
-      const res = await axios.post('http://localhost:5678/api/order/place', orderData);
+      const res = await axios.post(`${deployedurl}/api/order/place`, orderData);
 
       if (res.data.success) {
         alert("Order placed successfully!");

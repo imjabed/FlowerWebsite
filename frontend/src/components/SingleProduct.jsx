@@ -9,6 +9,9 @@ import Navbar from './Navbar';
 import Footer from './Footer';
  
 function SingleProduct(){
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
+
     const {id} = useParams();
     const [product, setProduct] = useState(null);
     const [textcolor, setTextcolor] = useState('white');
@@ -36,7 +39,7 @@ function SingleProduct(){
           selectedColor: selectedColor,
         });
         if(!selectedColor) { return alert("Please choose atleast one colour!")}
-        await axios.post("http://localhost:5678/api/cart/add", {
+        await axios.post(`${deployedurl}/api/cart/add`, {
           productId: product._id,
           quantity: 1,
           selectedColor: selectedColor,
@@ -62,7 +65,7 @@ function SingleProduct(){
     };
 
     useEffect(()=>{
-        fetch(`http://localhost:5678/api/products/show/${id}`)
+        fetch(`${deployedurl}/api/products/show/${id}`)
         .then((res)=>res.json())
         .then((data)=>setProduct(data))
         .catch((err)=>console.error(err))
@@ -121,7 +124,7 @@ function SingleProduct(){
             <div className="h-full w-full flex items-center justify-center">
             {product.productImages && product.productImages.length > 0 && (
                 <img
-                src={`http://localhost:5678/uploads/products/${product.productImages[currentImageIndex]}`}
+                src={`${deployedurl}/uploads/products/${product.productImages[currentImageIndex]}`}
                 alt=""
                 className="w-full h-full object-cover mx-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]  "
                 />

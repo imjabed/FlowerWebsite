@@ -5,12 +5,15 @@ import Navbar from './Navbar';
 import axios from "axios";
 
 function Products({ gender }) {
+  const deployedurl = import.meta.env.VITE_BACKEND_URL;
+  const localurl='http://localhost:5678';
+
   const [products, setProducts] = useState({});
   const token = localStorage.getItem("token");
 
 
   useEffect(() => {
-        axios.get('http://localhost:5678/api/products/show', {
+        axios.get(`${deployedurl}/api/products/show`, {
                 headers: {
                 Authorization: `Bearer ${token}`
                 }
@@ -48,7 +51,7 @@ function Products({ gender }) {
                 <img
                   src={
                     product.productImages?.length
-                      ? `http://localhost:5678/uploads/products/${product.productImages[0]}`
+                      ? `${deployedurl}/uploads/products/${product.productImages[0]}`
                       : "No Images Found"
                   }
                   alt={product.productTitle}

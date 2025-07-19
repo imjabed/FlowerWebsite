@@ -3,7 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function CustomizeForm(){
-    
+    const deployedurl = import.meta.env.VITE_BACKEND_URL;
+    const localurl='http://localhost:5678';
+
     const [flowerCount, setflowerCount] = useState(5);
     const [flowerColor, setflowerColor] = useState([]);
     const [wrapperColor, setwrapperColor] = useState('');
@@ -59,7 +61,7 @@ function CustomizeForm(){
 
 
         try {
-            await axios.post('http://localhost:5678/api/cart/custom', customData, {
+            await axios.post(`${deployedurl}/api/cart/custom`, customData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },

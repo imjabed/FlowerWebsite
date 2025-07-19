@@ -12,7 +12,6 @@ import CustomizeForm from './CustomizeForm';
 
 function Home(){
     const deployedurl = import.meta.env.VITE_BACKEND_URL;
-    
     const localurl='http://localhost:5678';
 
     useLenis(); 
