@@ -24,8 +24,14 @@ mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.error("MongoDB connection failed:", err.message));
+.then(() => console.log("✅ MongoDB connected"))
+.catch(err => {
+  console.error("❌ MongoDB connection failed:", err);
+  // Fail fast so you see the error on startup
+  process.exit(1);
+});
+
+
 
 
 module.exports = app;
