@@ -2,18 +2,20 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 
 import { useState,useEffect } from "react";
-import {Link } from 'react-router-dom'
 import axios from 'axios';
 
 // Animations 
 import useLenis from './useLenis'
 
-
-
 import GenderToggle from "./GenderToggle"; 
 import CustomizeForm from './CustomizeForm';
 
 function Home(){
+
+    const deployedurl = process.env.REACT_APP_BACKEND_URL;
+
+    const localurl = "http://localhost:5678/";
+
     useLenis(); 
     const [gender, setGender] = useState("her");
     const [products, setProducts] = useState([]);
@@ -21,7 +23,7 @@ function Home(){
     useEffect(() => {
       const token = localStorage.getItem("token");
 
-      axios.get('http://localhost:5678/api/products/show', {
+      axios.get(`${deployedurl}/api/products/show`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -79,7 +81,7 @@ function Home(){
                   "bg-pink-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"
                   :"bg-blue-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"}>
                   <img
-                    src={ product.productImages && product.productImages.length ? `http://localhost:5678/uploads/products/${product.productImages[0]}` : "No Images Found"}
+                    src={ product.productImages && product.productImages.length ? `${deployedurl}/uploads/products/${product.productImages[0]}` : "No Images Found"}
                     alt={product.productTitle}
                     className="h-[180px] w-full object-cover rounded-md"
                   />
@@ -114,7 +116,7 @@ function Home(){
                         "bg-pink-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"
                         :"bg-blue-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"}>
                         <img
-                          src={ product.productImages && product.productImages.length ? `http://localhost:5678/uploads/products/${product.productImages[0]}` : "No Images Found"}
+                          src={ product.productImages && product.productImages.length ? `${deployedurl}/uploads/products/${product.productImages[0]}` : "No Images Found"}
                           alt={product.productTitle}
                           className="h-[180px] w-full object-cover rounded-md"
                         />
