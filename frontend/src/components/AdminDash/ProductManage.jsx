@@ -80,7 +80,8 @@ const handleUpdate = async () => {
       }
     }
 
-    await axios.put(`http://localhost:5678/api/products/update/${editingProduct}`, data, {
+    await axios.put(`${deployedurl}/api/products/update/${editingProduct}`, data, {
+
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -192,7 +193,7 @@ const handleAddProduct = async (e) => {
                   {Array.isArray(product.productImages) && product.productImages.map((img, idx) => (
                     <img
                       key={idx}
-                      src={`http://localhost:5678/uploads/products/${img}`}
+                      src={img.startsWith("http") ? img : `${deployedurl}/uploads/products/${img}`}
                       alt="Product"
                       className="w-12 h-12 inline-block object-cover rounded mr-1"
                     />

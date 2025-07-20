@@ -16,7 +16,9 @@ app.use('/api/order', require('./routes/orderRoute'))
 app.use('/api/coupon', require('./routes/couponRoute'));
 
 app.use('/api/user', require('./routes/user'))
-app.use('/uploads', express.static('uploads'));
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 
 
@@ -24,11 +26,10 @@ mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("✅ MongoDB connected"))
+.then(() => console.log("MongoDB connected"))
 .catch(err => {
-  console.error("❌ MongoDB connection failed:", err);
-  // Fail fast so you see the error on startup
-  process.exit(1);
+  console.error("MongoDB connection failed:", err);
+
 });
 
 
