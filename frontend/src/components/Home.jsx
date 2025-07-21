@@ -108,7 +108,7 @@ function Home(){
                 {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase()).slice(0, 6).map(product => (
                   <SwiperSlide key={product._id}>
                     <div className={`${gender === 'her' ? "bg-pink-300" : "bg-blue-300"} 
-                        rounded-xl shadow-lg p-4 w-[90%] max-w-[270px] mx-auto 
+                        rounded-xl shadow-lg p-2 w-[100%] max-w-[250px] mx-auto 
                         h-[380px] flex flex-col items-center justify-between`}>
                       
                       <img
