@@ -11,6 +11,12 @@ import useLenis from './useLenis'
 import GenderToggle from "./GenderToggle"; 
 import CustomizeForm from './CustomizeForm';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+import { Pagination } from 'swiper/modules'; // If you want dots
+
 function Home(){
     const deployedurl = import.meta.env.VITE_BACKEND_URL;
     const localurl='http://localhost:5678';
@@ -141,9 +147,50 @@ function Home(){
 
                 </div>
             </div>
-            
+
+
+
             <CustomizeForm/>
             <Footer/>
+
+
+            <Swiper
+              spaceBetween={20}
+              slidesPerView={1}
+              breakpoints={{
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
+              pagination={{ clickable: true }}
+              modules={[Pagination]}
+              className="w-full px-4"
+            >
+              {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase()).slice(0, 6).map(product => (
+                <SwiperSlide key={product._id}>
+                  <div className={`${gender === 'her' ? "bg-pink-300" : "bg-blue-300"} 
+                      rounded-xl shadow-lg p-4 w-[90%] max-w-[250px] mx-auto 
+                      h-[380px] flex flex-col items-center justify-between`}>
+                    
+                    <img
+                      src={product.productImages?.length ? product.productImages?.[0] : ""}
+                      alt={product.productTitle}
+                      className="h-[160px] w-full object-cover rounded-md"
+                    />
+                    <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
+                    <p className="text-white text-center text-sm">{product.productDescription}</p>
+                    <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
+                    <button className={`${gender === 'her' ? 
+                        "mt-2 px-4 py-1 bg-pink-500" : 
+                        "mt-2 px-4 py-1 bg-blue-500"} 
+                        text-white rounded-full hover:opacity-90 transition text-sm`}>
+                      Shop Now
+                    </button>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
         </>
     )
 }
