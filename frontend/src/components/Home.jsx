@@ -116,9 +116,9 @@ function Home(){
               spaceBetween={20}
               slidesPerView={1}
               breakpoints={{
-                640: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 4 },
               }}
               pagination={{ clickable: true }}
               modules={[Pagination]}
@@ -166,9 +166,9 @@ function Home(){
                   spaceBetween={20}
                   slidesPerView={1}
                   breakpoints={{
-                    640: { slidesPerView: 1 },
-                    768: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 },
                   }}
                   pagination={{ clickable: true }}
                   modules={[Pagination]}
@@ -186,8 +186,8 @@ function Home(){
                       `}>
                         <img
                           src={product.productImages && product.productImages.length
-                            ? `${deployedurl}/uploads/products/${product.productImages[0]}`
-                            : "https://via.placeholder.com/250x180?text=No+Image"}
+                            ? product.productImages[0]
+                            : "Image could not be loaded"}
                           alt={product.productTitle}
                           className="h-[180px] w-full object-cover rounded-md"
                         />
@@ -205,12 +205,12 @@ function Home(){
                 </Swiper>
               </div>
 
-  <div className='flex justify-center items-center mt-8'>
-    <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition 
-      ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
-      View All Products
-    </button>
-  </div>
+            <div className='flex justify-center items-center mt-8'>
+              <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition 
+                ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
+                View All Products
+              </button>
+            </div>
             </div>
 
          <CustomizeForm/>
