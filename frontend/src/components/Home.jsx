@@ -82,29 +82,30 @@ function Home(){
                 </p>
 
                 <div className='flex flex-wrap justify-center gap-20'>
-                {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase()).slice(0,3).map(product => (
-                  <div key={product._id} className={gender === 'her' ? 
-                    "bg-pink-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"
-                    :"bg-blue-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"}>
-                    <img
-                      src={ product.productImages && product.productImages.length ? `${deployedurl}/uploads/products/${product.productImages[0]}` : "No Images Found"}
-                      alt={product.productTitle}
-                      className="h-[180px] w-full object-cover rounded-md"
-                    />
-                    <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
-                    <p className="text-white text-center text-sm">{product.productDescription}</p>
-                    <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
-                    <button className={gender === 'her' ? 
-                    "mt-2 px-4 py-1 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition text-sm"
-                    : "mt-2 px-4 py-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition text-sm"}>Shop Now</button>
+                  {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase()).slice(0,3).map(product => (
+                    <div key={product._id} className={gender === 'her' ? 
+                      "bg-pink-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"
+                      :"bg-blue-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"}>
+                      <img
+                        src={ product.productImages && product.productImages.length ? product.productImages?.[0] : `${deployedurl}/uploads/products/${product.productImages[0]}`}
+                        alt={product.productTitle}
+                        className="h-[180px] w-full object-cover rounded-md"
+                      />
+                      <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
+                      <p className="text-white text-center text-sm">{product.productDescription}</p>
+                      <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
+                      <button className={gender === 'her' ? 
+                      "mt-2 px-4 py-1 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition text-sm"
+                      : "mt-2 px-4 py-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition text-sm"}>Shop Now</button>
+                      
+                    </div>
                     
-                  </div>
                   
-                
-                
-                ))}
+                  
+                  ))}
                 </div>
             </div>
+
             <div className={`h-screen w-full p-10 transition-all duration-300 ${gender === "her" ? "bg-pink-100 text-pink-600" : "bg-blue-100 text-blue-800"}`}>
                 <div > 
                   <h2 className='text-[45px] text-center transition-all duration-300 mb-0 md:text-[60px] mb-4' style={{ fontFamily: '"Love Light", cursive' }}>Special Edition</h2>
@@ -118,7 +119,7 @@ function Home(){
                         "bg-pink-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"
                         :"bg-blue-300 rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between"}>
                         <img
-                          src={ product.productImages && product.productImages.length ? `${deployedurl}/uploads/products/${product.productImages[0]}` : "No Images Found"}
+                          src={ product.productImages && product.productImages.length ? product.productImages?.[0] : `${deployedurl}/uploads/products/${product.productImages[0]}`}
                           alt={product.productTitle}
                           className="h-[180px] w-full object-cover rounded-md"
                         />
@@ -140,6 +141,7 @@ function Home(){
 
                 </div>
             </div>
+            
             <CustomizeForm/>
             <Footer/>
         </>
