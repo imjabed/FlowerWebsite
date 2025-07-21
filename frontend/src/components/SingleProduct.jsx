@@ -124,7 +124,10 @@ function SingleProduct(){
             <div className="h-full w-full flex items-center justify-center">
             {product.productImages && product.productImages.length > 0 && (
                 <img
-                src={`${deployedurl}/uploads/products/${product.productImages[currentImageIndex]}`}
+                src={
+                  product.productImages?.[currentImageIndex] || "fallback.jpg"
+                  // `${deployedurl}/uploads/products/${product.productImages[currentImageIndex]}` 
+                }
                 alt=""
                 className="w-full h-full object-cover mx-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]  "
                 />
