@@ -7,11 +7,17 @@ require('dotenv').config()
 
 
 
-app.use(cors({
-  origin: 'https://ourflowerwebsite.vercel.app', 
-  credentials: true
-}));
-// app.options('*', cors()); 
+const corsOptions = {
+  origin: 'https://ourflowerwebsite.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
+
+
 app.use(express.json())
 
 
