@@ -5,12 +5,15 @@ const cors = require('cors')
 const app = express()
 require('dotenv').config()
 
-app.use(express.json())
+
 
 app.use(cors({
   origin: 'https://ourflowerwebsite.vercel.app', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true
 }));
+app.options('*', cors());
+app.use(express.json())
 
 
 app.use('/api/auth', require('./routes/authRoute'))
@@ -23,10 +26,7 @@ app.use('/api/user', require('./routes/user'))
 // const path = require('path');
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect(process.env.DATABASEURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.DATABASEURL)
 .then(() => console.log("MongoDB connected"))
 .catch(err => {
   console.error("MongoDB connection failed:", err);
