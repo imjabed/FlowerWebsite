@@ -8,7 +8,7 @@ require('dotenv').config()
 app.use(express.json())
 
 app.use(cors({
-  origin: '*', //domain need
+  origin: 'https://ourflowerwebsite.vercel.app', 
   credentials: true
 }));
 
