@@ -49,10 +49,10 @@ function Products({ gender }) {
                 className={`${cardClass} rounded-xl shadow-lg p-4 w-[250px] h-[380px] flex flex-col items-center justify-between`}
               >
                 <img
-                  src={
-                    product.productImages?.length
-                      ? `${deployedurl}/uploads/products/${product.productImages[0]}`
-                      : "No Images Found"
+                  src={ product.productImages?.[0] || "fallback.jpg"
+                    // product.productImages?.length
+                    //   ? `${deployedurl}/uploads/products/${product.productImages[0]}`
+                    //   : "No Images Found"
                   }
                   alt={product.productTitle}
                   className="h-[180px] w-full object-cover rounded-md"
