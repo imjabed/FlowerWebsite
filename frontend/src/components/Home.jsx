@@ -82,7 +82,7 @@ function Home(){
           </div>
 
           <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 
-            ${gender === "her" ? "bg-pink-100 text-pink-600" : "bg-blue-100 text-blue-800"}`}>
+            ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
 
             <div>
               <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300'
@@ -97,8 +97,8 @@ function Home(){
                 spaceBetween={20}
                 slidesPerView={1}
                 breakpoints={{
-                  640: { slidesPerView: 2 },
-                  768: { slidesPerView: 3 },
+                  640: { slidesPerView: 4 },
+                  768: { slidesPerView: 4 },
                   1024: { slidesPerView: 4 },
                 }}
                 pagination={{ clickable: true }}
@@ -122,8 +122,8 @@ function Home(){
                       <button className={`${gender === 'her' ? 
                           "mt-2 px-4 py-1 bg-pink-500" : 
                           "mt-2 px-4 py-1 bg-blue-500"} 
-                          text-white rounded-full hover:opacity-90 transition text-sm`}>
-                        Shop Now
+                          text-white rounded-full hover:opacity-90 transition text-sm mb-5`}>
+                        Buy Now
                       </button>
                     </div>
                   </SwiperSlide>
