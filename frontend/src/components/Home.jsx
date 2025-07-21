@@ -95,7 +95,7 @@ function Home(){
               </p>
               <Swiper
                 spaceBetween={20}
-                slidesPerView={3}
+                slidesPerView={1}
                 breakpoints={{
                   480: { slidesPerView: 3 },
                   640: { slidesPerView: 3 },
@@ -155,7 +155,7 @@ function Home(){
 
               <Swiper
                 spaceBetween={20}
-                slidesPerView={1.3}
+                slidesPerView={1}
                 breakpoints={{
                   480: { slidesPerView: 3 },
                   640: { slidesPerView: 3 },
