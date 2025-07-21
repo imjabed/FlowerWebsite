@@ -9,10 +9,9 @@ require('dotenv').config()
 
 app.use(cors({
   origin: 'https://ourflowerwebsite.vercel.app', 
-  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], 
   credentials: true
 }));
-app.options('*', cors());
+// app.options('*', cors()); 
 app.use(express.json())
 
 
