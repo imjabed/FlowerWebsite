@@ -6,7 +6,11 @@ const app = express()
 require('dotenv').config()
 
 app.use(express.json())
-app.use(cors())
+
+app.use(cors({
+  origin: '*', //domain need
+  credentials: true
+}));
 
 
 app.use('/api/auth', require('./routes/authRoute'))
