@@ -95,9 +95,10 @@ function Home(){
               </p>
               <Swiper
                 spaceBetween={20}
-                slidesPerView={1}
+                slidesPerView={3}
                 breakpoints={{
-                  640: { slidesPerView: 4 },
+                  480: { slidesPerView: 3 },
+                  640: { slidesPerView: 3 },
                   768: { slidesPerView: 4 },
                   1024: { slidesPerView: 4 },
                 }}
@@ -154,10 +155,11 @@ function Home(){
 
               <Swiper
                 spaceBetween={20}
-                slidesPerView={1}
+                slidesPerView={3}
                 breakpoints={{
-                  640: { slidesPerView: 2 },
-                  768: { slidesPerView: 3 },
+                  480: { slidesPerView: 3 },
+                  640: { slidesPerView: 3 },
+                  768: { slidesPerView: 4 },
                   1024: { slidesPerView: 4 },
                 }}
                 pagination={{ clickable: true }}
