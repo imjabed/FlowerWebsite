@@ -16,11 +16,8 @@ app.use('/api/order', require('./routes/orderRoute'))
 app.use('/api/coupon', require('./routes/couponRoute'));
 
 app.use('/api/user', require('./routes/user'))
-const path = require('path');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-
+// const path = require('path');
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
@@ -32,6 +29,10 @@ mongoose.connect(process.env.DATABASEURL, {
 
 });
 
+const PORT = process.env.PORT || 5678;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 
 

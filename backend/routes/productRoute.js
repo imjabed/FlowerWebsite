@@ -2,7 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const Product = require('../models/ProductModel');
 const verifyAdmin = require('../middleware/adminMiddleware');
-const upload = require('../middleware/cloudinaryStorage'); // 👈 Cloudinary upload
+const upload = require('../middleware/cloudinaryStorage'); 
 
 // Add Product
 Router.post('/add', verifyAdmin, upload.array('productImages', 5), async (req, res) => {
