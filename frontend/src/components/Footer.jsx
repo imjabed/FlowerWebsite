@@ -6,7 +6,7 @@ function Footer(){
 
                 <div className="flex flex-col items-center gap-4">
                     <img src="./logo.png" alt="" height={'100px'}  width={'100px'} />
-                    Ribbon Flowers
+                    Mijory
                 </div>
 
                 <div>

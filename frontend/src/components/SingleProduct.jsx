@@ -113,12 +113,7 @@ function SingleProduct(){
                     <ShoppingBagIcon className="h-5 w-5" />
                     Add to Cart
                   </button>
-
-
                 </div>
-
-
-
             </div>
 
             <div className="h-full w-full flex items-center justify-center">

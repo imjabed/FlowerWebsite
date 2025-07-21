@@ -97,8 +97,8 @@ function CustomizeForm(){
 
     return(
         <>
-        <div className='bg-pink-200 p-10'>
-            <div className='p-7 rounded-3xl max-w-xl mx-auto shadow-xl space-y-3 border-2 border-rose-300 bg-cover bg-opacity-10 '
+        <div className='bg-pink-200 p-2 md:flex  justify-center items-center gap-40'>
+            <div className='p-7 rounded-3xl shadow-xl space-y-3 border-2 border-rose-300 bg-cover bg-opacity-10'
              style={{ backgroundImage: `url('./f.jpg')`,  backgroundColor: "rgba(255, 255, 255, 0.7)", backgroundBlendMode: "overlay", }}>
                 
                 <h2 className="text-2xl font-extrabold text-center text-rose-700 tracking-wider">Gift Your Own Bouquet</h2>
@@ -199,6 +199,15 @@ function CustomizeForm(){
                     <button onClick={handleAddToCart} className='px-3 py-2 mb-2 rounded-full text-sm font-medium shadow-md transition-all duration-200  w-full cursor-pointer bg-pink-500 text-white hover:bg-pink-600'>Add to Cart</button>
                 </div>
             </div>
+
+            <div className="hidden md:flex">
+                <img
+                src="/cfbg.png"
+                alt="Bouquet preview"
+                className="h-full max-h-[700px] w-auto object-cover rounded-[200px]"
+                />
+            </div>
+
         </div>
         </>
     )

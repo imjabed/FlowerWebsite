@@ -5,11 +5,14 @@ body{
 }
 
 .banner h3{
-    /* font-family: "Love Light", cursive;  */
-    font-weight: 400;
-    font-size: 70px;
+    font-family: "Love Light", cursive; 
+    /* font-weight: 400;  */
+    /* font-size: 70px;  */
+}
+.companytitle{ 
+    font-family: "Love Light", cursive; 
 }
 
 .banner button{
     cursor: pointer;
-}
+} 
