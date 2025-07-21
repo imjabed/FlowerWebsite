@@ -129,7 +129,7 @@ function SingleProduct(){
                   // `${deployedurl}/uploads/products/${product.productImages[currentImageIndex]}` 
                 }
                 alt=""
-                className="w-full h-full object-cover mx-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]  "
+                className="w-full h-screen object-cover mx-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]  "
                 />
             )}
             <button onClick={nextImage}className="absolute right-4 bg-pink-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-pink-600 transition-all">
