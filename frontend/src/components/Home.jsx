@@ -160,7 +160,7 @@ function Home(){
                 modules={[Pagination]}
                 className="w-full px-0"
               >
-              {products.filter(p =>  p.productGender === gender && p.productCategory?.toLowerCase() !== "special").slice(0, 5).map(product => (
+              {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase() && product.productCategory?.toLowerCase() !== "special").slice(0, 5).map(product => (
                   <SwiperSlide key={product._id}>
                     <div className={`${gender === 'her' ? "bg-pink-400" : "bg-blue-300"} rounded-xl p-2 shadow-lg p-2 w-full max-w-[290px] md:max-w-[250px] mx-auto h-[450px] md:h-[380px] flex flex-col items-center justify-between`}>
                       <img src={product.productImages[0]} alt={product.productTitle} className="h-[230px] md:h-[160px] w-full object-cover rounded-md" />
@@ -182,6 +182,30 @@ function Home(){
               </button>
             </div>
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
       {/* Special Section */}
           <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 ${gender === "her" ? "bg-pink-100 text-pink-600" : "bg-blue-100 text-blue-800"}`}>
             <div>
