@@ -80,7 +80,7 @@ function Home(){
               </div>
           </div>
 
-          {/* <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 
+          <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 
             ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
 
             <div>
@@ -137,10 +137,10 @@ function Home(){
                 View All Products
               </button>
             </div>
-          </div> */}
+          </div>
 
       {/* Premium Section */}
-            <div className={`w-full px-2 py-8 sm:px-6 md:min-h-screen transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
+            {/* <div className={`w-full px-2 py-8 sm:px-6 md:min-h-screen transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
               <div>
                 <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300' style={{ fontFamily: '"Love Light", cursive' }}>
                   Premium Collections
@@ -193,7 +193,7 @@ function Home(){
                   View All Products
                 </button>
               </div>
-            </div>
+            </div> */}
 
 
 
