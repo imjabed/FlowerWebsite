@@ -140,48 +140,61 @@ function Home(){
           </div> */}
 
       {/* Premium Section */}
-          <div className={`h-[700px] w-full px-2 py-8 sm:px-6 md:min-h-screen px-10 transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
-            <div>
-              <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300' style={{ fontFamily: '"Love Light", cursive' }}>
-                Premium Collections
-              </h2>
-              <p className="text-[20px] sm:text-[30px] md:text-[40px] text-center mb-6 transition-all duration-300" style={{ fontFamily: '"Love Light", cursive' }}>
-                {gender === "her" ? "For your queen" : "For your King"}
-              </p>
-              <Swiper spaceBetween={0}
-                slidesPerView={1}
-                breakpoints={{
-                  480: { slidesPerView: 1 },
-                  640: { slidesPerView: 1 },
-                  768: { slidesPerView: 4 },
-                  1024: { slidesPerView: 4 },
-                }}
-                pagination={{ clickable: true }}
-                modules={[Pagination]}
-                className="w-full px-0"
-              >
-              {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase() && product.productCategory?.toLowerCase() !== "special").slice(0, 5).map(product => (
-                  <SwiperSlide key={product._id}>
-                    <div className={`${gender === 'her' ? "bg-pink-400" : "bg-blue-300"} rounded-xl p-2 shadow-lg p-2 w-full max-w-[290px] md:max-w-[250px] mx-auto h-[450px] md:h-[380px] flex flex-col items-center justify-between`}>
-                      <img src={product.productImages[0]} alt={product.productTitle} className="h-[230px] md:h-[160px] w-full object-cover rounded-md" />
-                      <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
-                      <p className="text-white text-center text-sm">{product.productDescription}</p>
-                      <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
-                      <button className={`${gender === 'her' ? "mt-2 px-4 py-1 bg-pink-500" : "mt-2 px-4 py-1 bg-blue-500"} text-white rounded-full hover:opacity-90 transition text-sm mb-5`}>
-                        Buy Now
-                      </button>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+            <div className={`w-full px-2 py-8 sm:px-6 md:min-h-screen transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
+              <div>
+                <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300' style={{ fontFamily: '"Love Light", cursive' }}>
+                  Premium Collections
+                </h2>
+                <p className="text-[20px] sm:text-[30px] md:text-[40px] text-center mb-6 transition-all duration-300" style={{ fontFamily: '"Love Light", cursive' }}>
+                  {gender === "her" ? "For your queen" : "For your King"}
+                </p>
+
+                <Swiper
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  breakpoints={{
+                    480: { slidesPerView: 1 },
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 4 },
+                    1024: { slidesPerView: 4 },
+                  }}
+                  pagination={{ clickable: true }}
+                  modules={[Pagination]}
+                  className="w-full px-0"
+                >
+                  {products
+                    .filter(product =>
+                      product.productGender?.toLowerCase() === gender.toLowerCase() &&
+                      (product.productCategory || "").toLowerCase() !== "special"
+                    )
+                    .slice(0, 5)
+                    .map(product => (
+                      <SwiperSlide key={product._id}>
+                        <div className={`${gender === 'her' ? "bg-pink-400" : "bg-blue-300"} rounded-xl shadow-lg p-2 w-full max-w-[290px] md:max-w-[250px] mx-auto h-[450px] md:h-[380px] flex flex-col items-center justify-between`}>
+                          <img
+                            src={product.productImages?.[0] || "/fallback.jpg"}
+                            alt={product.productTitle}
+                            className="h-[230px] md:h-[160px] w-full object-cover rounded-md"
+                          />
+                          <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
+                          <p className="text-white text-center text-sm">{product.productDescription}</p>
+                          <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
+                          <button className={`${gender === 'her' ? "mt-2 px-4 py-1 bg-pink-500" : "mt-2 px-4 py-1 bg-blue-500"} text-white rounded-full hover:opacity-90 transition text-sm mb-5`}>
+                            Buy Now
+                          </button>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+              </div>
+
+              <div className='flex justify-center items-center mt-8'>
+                <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
+                  View All Products
+                </button>
+              </div>
             </div>
 
-            <div className='flex justify-center items-center mt-8'>
-              <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
-                View All Products
-              </button>
-            </div>
-          </div>
 
 
 
