@@ -146,7 +146,58 @@ function SingleProduct(){
   </div>
 
   {/* Text Content Overlay */}
-  <div className="absolute inset-0 px-6 md:px-20 py-40  md:py-10 flex flex-col justify-center z-30 max-w-[700px]">
+  <div className="hidden md:absolute md:inset-0 md:px-6 md:px-20 md:py-10 md:flex md:flex-col md:justify-center md:z-30 md:max-w-[700px]">
+    <h2 className="text-[42px] sm:text-[64px] lg:text-[90px] xl:text-[130px] 2xl:text-[154px] font-extrabold leading-tight break-words" style={{ color: textcolor }}>
+      {product.productTitle}
+    </h2>
+    <p className="text-[18px] md:text-[22px] max-w-[800px] text-white/90 mt-4">{product.productDescription}</p>
+
+    {/* Color Selectors */}
+    <div className="flex gap-6 py-6 cursor-pointer">
+      {[
+        { name: "Red", color: "#b91c1c", bg: "bg-red-900", index: 0 },
+        { name: "Black", color: "#000000", bg: "bg-black", index: 1 },
+        { name: "Pink", color: "pink", bg: "bg-pink-600", index: 2 },
+      ].map((clr, i) => (
+        <div
+          key={clr.name}
+          onClick={() => {
+            setTextcolor(clr.color);
+            setCurrentImageIndex(clr.index);
+            setSelectedColor(clr.name);
+          }}
+          className="flex flex-col items-center font-bold"
+        >
+          <div className={`h-10 w-10 ${clr.bg} rounded-full border-4 border-white transform transition-transform duration-300 hover:scale-110`}></div>
+          <p className={`text-[14px] mt-1`} style={{ color: clr.color }}>{clr.name}</p>
+        </div>
+      ))}
+    </div>
+
+    {/* Pricing */}
+    <p className="font-bold text-gray-300 text-[20px] sm:text-[24px]"><del>₹{product.productPrice + 250}</del> /-</p>
+    <p className="font-bold text-red-500 text-[26px] sm:text-[30px]">₹{product.productPrice} /-</p>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row gap-4 py-5 font-bold">
+      <button
+        onClick={handleBuyNow}
+        className="bg-blue-700 text-white px-8 py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-blue-900 transition-all w-full sm:w-[280px]"
+      >
+        <ShoppingCartIcon className="h-5 w-5" />
+        Buy Now
+      </button>
+      <button
+        onClick={handleAddToCart}
+        className="bg-blue-800 text-white px-8 py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-blue-900 transition-all w-full sm:w-[280px]"
+      >
+        <ShoppingBagIcon className="h-5 w-5" />
+        Add to Cart
+      </button>
+    </div>
+  </div>
+  
+  <div className="md:hidden absolute inset-0 px-6 py-4 flex flex-col justify-center z-30 max-w-[700px]">
     <h2 className="text-[42px] sm:text-[64px] lg:text-[90px] xl:text-[130px] 2xl:text-[154px] font-extrabold leading-tight break-words" style={{ color: textcolor }}>
       {product.productTitle}
     </h2>
