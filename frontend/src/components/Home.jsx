@@ -80,132 +80,8 @@ function Home(){
               </div>
           </div>
 
-          {/* <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 
-            ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
-
-            <div>
-              <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300'
-                style={{ fontFamily: '"Love Light", cursive' }}>
-                Premium Collections
-              </h2>
-              <p className="text-[20px] sm:text-[30px] md:text-[40px] text-center mb-6 transition-all duration-300"
-                style={{ fontFamily: '"Love Light", cursive' }}>
-                {gender === "her" ? "For your queen" : "For your King"}
-              </p>
-              <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
-                breakpoints={{
-                  480: { slidesPerView: 3 },
-                  640: { slidesPerView: 3 },
-                  768: { slidesPerView: 4 },
-                  1024: { slidesPerView: 4 },
-                }}
-                pagination={{ clickable: true }}
-                modules={[Pagination]}
-                className="w-full px-4"
-              >
-                {products.filter(product => product.productGender?.toLowerCase() === gender.toLowerCase()).slice(0, 6).map(product => (
-                  <SwiperSlide key={product._id}>
-                    <div className={`${gender === 'her' ? "bg-pink-300" : "bg-blue-300"} 
-                        rounded-xl shadow-lg p-2 w-[100%] max-w-[250px] mx-auto 
-                        h-[380px] flex flex-col items-center justify-between`}>
-                      
-                      <img
-                        src={product.productImages?.length ? product.productImages?.[0] : ""}
-                        alt={product.productTitle}
-                        className="h-[160px] w-full object-cover rounded-md"
-                      />
-                      <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
-                      <p className="text-white text-center text-sm">{product.productDescription}</p>
-                      <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
-                      <button className={`${gender === 'her' ? 
-                          "mt-2 px-4 py-1 bg-pink-500" : 
-                          "mt-2 px-4 py-1 bg-blue-500"} 
-                          text-white rounded-full hover:opacity-90 transition text-sm mb-5`}>
-                        Buy Now
-                      </button>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-            <div className='flex justify-center items-center mt-8'>
-              <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition 
-                ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
-                View All Products
-              </button>
-            </div>
-          </div> */}
-
-          {/* <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 
-            ${gender === "her" ? "bg-pink-100 text-pink-600" : "bg-blue-100 text-blue-800"}`}>
-
-            <div>
-              <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300'
-                style={{ fontFamily: '"Love Light", cursive' }}>
-                Special Edition
-              </h2>
-              <p className="text-[20px] sm:text-[30px] md:text-[40px] text-center mb-6 transition-all duration-300"
-                style={{ fontFamily: '"Love Light", cursive' }}>
-                {gender === "her" ? "For your queen" : "For your King"}
-              </p>
-
-              <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
-                breakpoints={{
-                  480: { slidesPerView: 3 },
-                  640: { slidesPerView: 3 },
-                  768: { slidesPerView: 4 },
-                  1024: { slidesPerView: 4 },
-                }}
-                pagination={{ clickable: true }}
-                modules={[Pagination]}
-                className="w-full"
-              >
-                {products.filter(product =>
-                  product.productGender?.toLowerCase() === gender.toLowerCase() &&
-                  product.productCategory.toLowerCase() === 'special'
-                ).map(product => (
-                  <SwiperSlide key={product._id}>
-                    <div className={`
-                      ${gender === 'her' ? "bg-pink-300" : "bg-blue-300"} 
-                      rounded-xl shadow-lg p-4 w-[90%] max-w-[250px] mx-auto 
-                      h-[380px] flex flex-col items-center justify-between
-                    `}>
-                      <img
-                        src={product.productImages && product.productImages.length
-                          ? product.productImages[0]
-                          : "Image could not be loaded"}
-                        alt={product.productTitle}
-                        className="h-[180px] w-full object-cover rounded-md"
-                      />
-                      <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
-                      <p className="text-white text-center text-sm">{product.productDescription}</p>
-                      <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
-                      <button className={gender === 'her'
-                        ? "mt-2 px-4 py-1 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition text-sm"
-                        : "mt-2 px-4 py-1 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition text-sm"}>
-                        Shop Now
-                      </button>
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-          <div className='flex justify-center items-center mt-8'>
-            <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition 
-              ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
-              View All Products
-            </button>
-          </div>
-          </div> */}
-
       {/* Premium Section */}
-            <div className={`w-full px-2 py-8 sm:px-6 md:min-h-screen transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
+          <div className={`w-full px-2 py-8 sm:px-6 md:min-h-screen transition-all duration-300 ${gender === "her" ? "bg-pink-200 text-pink-600" : "bg-blue-200 text-blue-800"}`}>
               <div>
                 <h2 className='text-[32px] sm:text-[45px] md:text-[60px] text-center mb-2 transition-all duration-300' style={{ fontFamily: '"Love Light", cursive' }}>
                   Premium Collections
@@ -258,8 +134,8 @@ function Home(){
                   View All Products
                 </button>
               </div>
-            </div>
-            
+          </div>
+
       {/* Special Section */}
           <div className={`min-h-screen w-full px-4 py-8 sm:px-6 md:px-10 transition-all duration-300 ${gender === "her" ? "bg-pink-100 text-pink-600" : "bg-blue-100 text-blue-800"}`}>
             <div>
