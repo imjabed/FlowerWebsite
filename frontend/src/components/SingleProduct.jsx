@@ -146,7 +146,7 @@ function SingleProduct(){
   </div>
 
   {/* Text Content Overlay */}
-  <div className="absolute inset-0 px-6 md:px-20 py-10 flex flex-col justify-center z-30 max-w-[700px]">
+  <div className="absolute inset-0 px-6 md:px-20 py-40  md:py-10 flex flex-col justify-center z-30 max-w-[700px]">
     <h2 className="text-[42px] sm:text-[64px] lg:text-[90px] xl:text-[130px] 2xl:text-[154px] font-extrabold leading-tight break-words" style={{ color: textcolor }}>
       {product.productTitle}
     </h2>
