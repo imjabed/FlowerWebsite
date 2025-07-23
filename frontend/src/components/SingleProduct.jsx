@@ -136,11 +136,12 @@ function SingleProduct(){
   {/* Background Image */}
   <div className="w-full h-full">
     {product.productImages && product.productImages.length > 0 && (
-      <img
-        src={product.productImages?.[currentImageIndex] || "fallback.jpg"}
-        alt="Product"
-        className="w-full h-full object-cover"
-      />
+    <img
+      src={product.productImages?.[currentImageIndex] || "fallback.jpg"}
+      alt="Product"
+      className="w-full h-full object-cover object-[80%] md:object-center"
+    />
+
     )}
   </div>
 
