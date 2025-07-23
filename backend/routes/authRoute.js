@@ -7,6 +7,8 @@ const User = require('../models/UserModel')
 const Otp = require('../models/OtpModel')
 const sendOtp = require('../utils/otpSend')
 
+const LoginNotification = require('../utils/loginNotificationMail')
+
 Router.post('/signup', async (req, res) => {
     const { name, email, password, phone, role} = req.body;
     // const role='customer'; 
@@ -62,6 +64,9 @@ Router.post('/login', async(req,res)=>{
             process.env.JWT_SECRET,
             {expiresIn: '2h'}
         )
+        const loginTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+        await LoginNotification(user.email, user.name || 'User', loginTime);
+        
         res.json({message:'Login Successful!', token, user: {
             id : user._id,
             name : user.name,
