@@ -1,5 +1,8 @@
 import {Link, useNavigate} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { HomeIcon, ShoppingBagIcon, UsersIcon, ArrowRightOnRectangleIcon, ClipboardDocumentListIcon, UserCircleIcon,EnvelopeIcon } from "@heroicons/react/24/outline";
+
+<HomeIcon className="h-6 w-6 text-white" />
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -68,40 +71,77 @@ function Navbar() {
 
 
         {showmenu && (
-          <div
-          className={`fixed top-0 right-0 h-full w-[40vw] bg-pink-200 z-50 shadow-xl transition-transform duration-300 ease-in-out md:hidden ${
+          <div className={`fixed top-0 right-0 h-full w-[60vw] bg-pink-200 z-50 shadow-xl flex flex-col md:hidden ${
             showmenu ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
+          }`}>
+
           <div className="flex justify-end p-4">
             <button onClick={() => setshowmenu(false)} className="text-xl text-pink-600">
               {/* <img src="/flowermenuicon.png" alt="flower Menu"/>  */}
               ✖
-
             </button>
           </div>
+
           <div className="flex flex-col items-start px-6 gap-4">
-            <Link to="/" onClick={() => setshowmenu(false)} className="bg-pink-300 w-full text-center  hover:text-pink-900">Home</Link>
-            <Link to="/products" onClick={() => setshowmenu(false)} className="bg-pink-300 w-full text-center hover:text-pink-900">Shop</Link>
-            <Link to="/about" onClick={() => setshowmenu(false)} className="bg-pink-300 w-full text-center text-[15px] hover:text-pink-900">About Us</Link>
             {user ? (
-              <>
-                <Link to="/profile" onClick={() => setshowmenu(false)} className="hover:text-pink-900">Hi, {user.name}</Link>
-                <button 
-                  onClick={() => {
-                    handleLogout();
-                    setshowmenu(false);
-                  }}
-                  className="text-red-500 hover:text-red-800"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link to="/signup" onClick={() => setshowmenu(false)} className="hover:text-pink-900">Sign Up</Link>
-            )}
+                      <div>
+                      <div className='flex justify-between items-center'> 
+                        <Link to='/profile' className='flex gap-3'>
+                          <span className='text-pink-700 font-semibold text-[18px] '>Hi, {user.name.split(' ')} </span>
+                          <img src={ user?.profilePicture ? `${user.profilePicture}?v=${user.updatedAt || Date.now()}` : "/userIcon.png"}
+                            alt="UserIcon" className='rounded-full h-7 w-7 object-cover border border-black/40' /> 
+                        </Link> 
+
+                      </div>
+                      <div className='text-pink-700 font-semibold text-[14px]'>{user.email} </div>
+                    </div>
+                      
+                     ) 
+                  : ( <Link to='/signup'>Sign up</Link>)}
           </div>
-        </div>
+
+          <hr className="mx-4 my-4 text-pink-600" />
+
+          <div className='flex flex-col gap-5 mt-4'>
+
+            <div className='flex gap-2 mx-10'>
+              <HomeIcon className="h-6 w-6 text-pink-500" />
+              <Link to="/" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]"> Home</Link>
+            </div>
+            <div className='flex gap-2 mx-10'>
+              <UserCircleIcon className="h-6 w-6 text-pink-500" />
+              <Link to="/about" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]">My Profile</Link>
+            </div>
+            <div className='flex gap-2 mx-10'>
+              <ClipboardDocumentListIcon  className="h-6 w-6 text-pink-500" />
+              <Link to="/products" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]">My Orders</Link>
+            </div>
+
+            
+            <div className='flex gap-2 mx-10'>
+              <ShoppingBagIcon className="h-6 w-6 text-pink-500" />
+              <Link to="/products" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]">Products</Link>
+            </div>
+            <div className='flex gap-2 mx-10'>
+              <EnvelopeIcon  className="h-6 w-6 text-pink-500" />
+              <Link to="/about" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]">Contact Us</Link>
+            </div>
+
+            <div className='flex gap-2 mx-10'>
+              <UsersIcon className="h-6 w-6 text-pink-500" />
+              <Link to="/about" onClick={() => setshowmenu(false)} className="text-pink-600 text-[18px]">About Us</Link>
+            </div>
+          </div>
+
+          <hr className="mx-4 my-4 mt-77 text-pink-600" />
+
+          <div className='flex items-center gap-2 mx-10'>
+            <ArrowRightOnRectangleIcon  className="h-6 w-6 text-pink" />      
+            <button onClick={handleLogout} className="text-red-400 font-bold text-[20px]">Logout</button>
+          </div>
+
+
+          </div>
         )}
 
 

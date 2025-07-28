@@ -13,6 +13,7 @@ import './App.css'
 
 import ProductManage from './components/AdminDash/ProductManage'
 import CouponManagement from './components/AdminDash/CouponManagement'
+import MyOrders from './components/MyOrders'
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
         <Route path='/products' element={<Products/>}></Route>
         <Route path='/orderpage' element={<Order/>}></Route>
         <Route path="/product/:id" element={<SingleProduct />} /> 
+        <Route path="/myorders" element={<MyOrders />} /> 
+
 
 
         {/* AdminPanel  */}

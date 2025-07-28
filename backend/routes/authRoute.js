@@ -65,14 +65,15 @@ Router.post('/login', async(req,res)=>{
             {expiresIn: '2h'}
         )
         const loginTime = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-        await LoginNotification(user.email, user.name || 'User', loginTime);
+        // await LoginNotification(user.email, user.name || 'User', loginTime); 
         
         res.json({message:'Login Successful!', token, user: {
             id : user._id,
             name : user.name,
             email : user.email,
             phone : user.phone,
-            role : user.role
+            role : user.role,
+            profilePicture: user.profilePicture?.url || null 
         }})
     }
     catch(err){

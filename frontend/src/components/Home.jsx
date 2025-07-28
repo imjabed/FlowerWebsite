@@ -1,6 +1,6 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-import './HomeRes.css' //Responsive css
+import { Link } from 'react-router-dom';
 
 import { useState,useEffect } from "react";
 import axios from 'axios';
@@ -113,16 +113,20 @@ function Home(){
                       <SwiperSlide key={product._id}>
                         <div className={`${gender === 'her' ? "bg-pink-400" : "bg-blue-300"} rounded-xl shadow-lg p-2 w-full max-w-[290px] md:max-w-[250px] mx-auto h-[450px] md:h-[380px] flex flex-col items-center justify-between`}>
                           <img
-                            src={product.productImages?.[0] || "/fallback.jpg"}
+                            src={product.productImages?.[0]?.url || "/fallback.jpg"}
                             alt={product.productTitle}
                             className="h-[230px] md:h-[160px] w-full object-cover rounded-md"
                           />
                           <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
-                          <p className="text-white text-center text-sm">{product.productDescription}</p>
+                          <p className="text-white text-center text-sm">
+                            {product.productDescription.length > 100 ? product.productDescription.slice(0, 100) + '...' : product.productDescription}
+                          </p>
                           <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
-                          <button className={`${gender === 'her' ? "mt-2 px-4 py-1 bg-pink-500" : "mt-2 px-4 py-1 bg-blue-500"} text-white rounded-full hover:opacity-90 transition text-sm mb-5`}>
-                            Buy Now
+                          <Link to={`/product/${product._id}`}>
+                          <button className={`${gender === 'her' ? "mt-2 px-4 py-2 bg-pink-500 hover:bg-pink-600" : "mt-2 px-4 py-2 bg-blue-500 hover-bg-blue-600"} text-white font-bold rounded-full hover:scale-95 transition text-sm mb-5 cursor-pointer `}>
+                           Gift Now
                           </button>
+                          </Link>
                         </div>
                       </SwiperSlide>
                     ))}
@@ -130,9 +134,11 @@ function Home(){
               </div>
 
               <div className='flex justify-center items-center mt-8'>
+                <Link to='/products'>
                 <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
                   View All Products
                 </button>
+                </Link>
               </div>
           </div>
 
@@ -165,7 +171,7 @@ function Home(){
                     ).map(product => (
                   <SwiperSlide key={product._id}>
                     <div className={`${gender === 'her' ? "bg-pink-300" : "bg-blue-300"} rounded-xl shadow-lg p-4 w-[90%] max-w-[250px] mx-auto h-[380px] flex flex-col items-center justify-between`}>
-                      <img src={product.productImages[0]} alt={product.productTitle} className="h-[180px] w-full object-cover rounded-md" />
+                      <img src={product.productImages[0]?.url || "Image Could not be found"} alt={product.productTitle} className="h-[180px] w-full object-cover rounded-md" />
                       <h2 className="text-lg font-bold mt-2 text-white text-center">{product.productTitle}</h2>
                       <p className="text-white text-center text-sm">{product.productDescription}</p>
                       <p className="text-white text-center font-bold mt-1">₹{product.productPrice}</p>
@@ -179,9 +185,11 @@ function Home(){
             </div>
 
             <div className='flex justify-center items-center mt-8'>
+              <Link to='/products'>
               <button className={`h-[40px] w-[160px] px-3 py-1 text-white rounded-full cursor-pointer transition ${gender === 'her' ? 'bg-pink-400 hover:bg-pink-600' : 'bg-blue-400 hover:bg-blue-600'}`}>
                 View All Products
               </button>
+              </Link>
             </div>
           </div>
 

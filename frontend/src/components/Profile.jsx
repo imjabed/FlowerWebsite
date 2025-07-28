@@ -76,10 +76,15 @@ function Profile() {
           <h2 className='text-center font-bold text-xl text-pink-600'>Your Profile</h2>
           {user.profilePicture && (
             <img
-              src={user?.profilePicture? user.profilePicture : "/userIcon.png"}
+              src={
+                user?.profilePicture
+                  ? `${user.profilePicture}?v=${new Date().getTime()}`
+                  : "/userIcon.png"
+              }
               alt="Profile"
-              className="w-32 h-32 rounded-full mt-4 "
+              className="w-32 h-32 rounded-full mt-4"
             />
+
           )}     
         </div>
         <div className='flex flex-col gap-4 mt-5 mb-5'>

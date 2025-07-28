@@ -4,59 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 function Order() {
   const deployedurl = import.meta.env.VITE_BACKEND_URL;
-  const localurl='http://localhost:5678';
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  const [discountedamount, setdiscountedamount] =useState(0);
+  const [discountedamount, setdiscountedamount] = useState(0);
   const [baseTotalAmount, setBaseTotalAmount] = useState(0);
 
   const [paymentMode, setPaymentMode] = useState('cashondelivery');
-
   const [coupon, setCoupon] = useState([]);
-  const [couponCode, setcouponCode] = useState("")
-  
-  useEffect(() => {
-    const fetchcoupons = async () => {
-      try {
-        const res = await axios.get(`${deployedurl}/api/coupon/showcoupon`);
-        setCoupon(res.data);
-      } catch (err) {
-        console.error("Error fetching coupons:", err);
-      }
-    };
-
-    fetchcoupons();
-  }, []);
-
-  const handleCouponApply = () => {
-    if(cartItems.length === 0) { return alert("Please add atleast one product to apply coupon")}
-
-    if (appliedCoupon) return alert("Coupon already applied.");
-
-    const couponFound = coupon.find((c) => c.code.toLowerCase() === couponCode.toLowerCase());
-    if (!couponFound) return alert("Invalid Coupon");
-    if (!couponFound.isActive) return alert("Expired Coupon");
-
-
-    let discount = 0;
-    if (couponFound.discountType === 'amount') {
-      discount = Number(couponFound.discountValue);
-    } else if (couponFound.discountType === 'percentage') {
-      discount = (baseTotalAmount * Number(couponFound.discountValue)) / 100;
-    }
-
-    const roundedDiscount = Math.round(discount);
-    const newTotal = Math.max(0, baseTotalAmount - roundedDiscount);
-
-    setAppliedCoupon(couponFound);
-    setdiscountedamount(roundedDiscount);
-    setTotalAmount(newTotal);
-
-    alert(`Coupon applied! You saved ₹${roundedDiscount}`);
-  };
+  const [couponCode, setcouponCode] = useState("");
 
   const [formData, setFormData] = useState({
     name: '',
@@ -68,6 +26,18 @@ function Order() {
     city: '',
     pincode: '',
   });
+
+  useEffect(() => {
+    const fetchcoupons = async () => {
+      try {
+        const res = await axios.get(`${deployedurl}/api/coupon/showcoupon`);
+        setCoupon(res.data);
+      } catch (err) {
+        console.error("Error fetching coupons:", err);
+      }
+    };
+    fetchcoupons();
+  }, [deployedurl]);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -102,36 +72,90 @@ function Order() {
     };
 
     fetchCart();
-  }, []);
-
+  }, [deployedurl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCouponApply = () => {
+    if (cartItems.length === 0) return alert("Please add at least one product to apply coupon");
+    if (appliedCoupon) return alert("Coupon already applied.");
+
+    const couponFound = coupon.find((c) => c.code.toLowerCase() === couponCode.toLowerCase());
+    if (!couponFound) return alert("Invalid Coupon");
+    if (!couponFound.isActive) return alert("Expired Coupon");
+
+    let discount = 0;
+    if (couponFound.discountType === 'amount') {
+      discount = Number(couponFound.discountValue);
+    } else if (couponFound.discountType === 'percentage') {
+      discount = Math.max(0, (baseTotalAmount * Number(couponFound.discountValue)) / 100);
+    }
+
+    const roundedDiscount = Math.round(discount);
+    const newTotal = Math.max(0, baseTotalAmount - roundedDiscount);
+
+    setAppliedCoupon(couponFound);
+    setdiscountedamount(roundedDiscount);
+    setTotalAmount(newTotal);
+
+    alert(`Coupon applied! You saved ₹${roundedDiscount}`);
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setcouponCode("");
+    setTotalAmount(baseTotalAmount);
+    setdiscountedamount(0);
+    if (cartItems.length === 0) {
+      setBaseTotalAmount(0);
+      setTotalAmount(0);
+    }
+  };
+
+  const updateCartTotals = (updatedCart) => {
+    const total = updatedCart.reduce((acc, item) => {
+      const cost = item.price && item.quantity
+        ? item.price * item.quantity
+        : item.totalPrice || 0;
+      return acc + cost;
+    }, 0);
+
+    setCartItems(updatedCart);
+    setBaseTotalAmount(total);
+
+    if (appliedCoupon) {
+      let discount = appliedCoupon.discountType === 'amount'
+        ? Number(appliedCoupon.discountValue)
+        : Math.max(0, (total * Number(appliedCoupon.discountValue)) / 100);
+      const roundedDiscount = Math.round(discount);
+      setTotalAmount(Math.max(0, total - roundedDiscount));
+      setdiscountedamount(roundedDiscount);
+    } else {
+      setTotalAmount(total);
+      setdiscountedamount(0);
+    }
   };
 
   const handleRemoveItem = async (indexToRemove) => {
+    
     const itemToRemove = cartItems[indexToRemove];
     const token = localStorage.getItem('token');
-
     try {
-      if (itemToRemove.productId) {
-        // It's a regular product
+      if (itemToRemove.productId && itemToRemove.selectedColor !== "Custom") {
+        alert('One Item is Removed from your cart')
         await axios.delete(`${deployedurl}/api/cart/item/${itemToRemove._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        // It's a custom bouquet
+        alert('One Custom Item is Removed')
         await axios.delete(`${deployedurl}/api/cart/custom/${itemToRemove._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` }
         });
       }
 
-      // Update UI
       const updatedItems = cartItems.filter((_, index) => index !== indexToRemove);
       updateCartTotals(updatedItems);
     } catch (err) {
@@ -141,64 +165,81 @@ function Order() {
   };
 
   const handleOrder = async (e) => {
-    e.preventDefault();
-    try {
-      const userId = localStorage.getItem('userId');
-      const orderData = {
-        userId,
-        items: cartItems,
-        totalAmount,
-        paymentMode,
-        deliveryAddress: formData,
-      };
-      const res = await axios.post(`${deployedurl}/api/order/place`, orderData);
+  e.preventDefault();
 
-      if (res.data.success) {
-        alert("Order placed successfully!");
-        navigate('/thank-you');
-      } else {
-        alert("Order failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Order placement failed:", error);
-      alert("Something went wrong while placing the order.");
+  try {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+
+    if (!userId) {
+      alert("User not detected. Please login again.");
+      return;
     }
-  };
+    // const formattedItems = cartItems.map((item) => {
+    //   const isCustom = item.custom || false;
 
-  const removeCoupon = () => {
-    setAppliedCoupon(null);
-    setTotalAmount(baseTotalAmount);
-    setdiscountedamount(0);
-    if(cartItems.length === 0) { setTotalAmount(0)}
-  };
+    //   return {
+    //     productId: isCustom ? null : (typeof item.productId === 'object' ? item.productId._id : item.productId),
+    //     selectedColor: item.selectedColor || 'default',
+    //     quantity: Number(item.quantity) || 1,
+    //     price: Number(item.price) || 0,
+    //     custom: isCustom
+    //   };
+    // });
+    // const invalidItem = formattedItems.find(item => (!item.custom && !item.productId) || item.price === 0);
+    // if (invalidItem) {
+    //   alert("Some items are invalid (missing productId or price). Please check your cart.");
+    //   return;
+    // }
 
-  const updateCartTotals = (updatedCart) => {
-  const total = updatedCart.reduce((acc, item) => {
-    const cost = item.price && item.quantity
-      ? item.price * item.quantity
-      : item.totalPrice || 0;
-    return acc + cost;
-  }, 0);
+    const orderData = {
+      userId,
+      items: cartItems.filter(item => item.selectedColor !== 'Custom'),       
+      customItems: cartItems.filter(item => item.selectedColor === 'Custom'),
+      totalAmount,
+      paymentMode,
+      deliveryAddress: formData,
+      coupon: appliedCoupon ? appliedCoupon.code : null,
+      discountAmount: discountedamount,
+    };
 
-  setCartItems(updatedCart);
-  setBaseTotalAmount(total);
-  if (appliedCoupon) {
-    let discount = appliedCoupon.discountType === 'amount'
-      ? Number(appliedCoupon.discountValue)
-      : (total * Number(appliedCoupon.discountValue)) / 100;
-    const roundedDiscount = Math.round(discount);
-    setTotalAmount(Math.max(0, total - roundedDiscount));
-    setdiscountedamount(roundedDiscount);
-  } else {
-    setTotalAmount(total);
-    setdiscountedamount(0);
+    const res = await axios.post(`${deployedurl}/api/order/place`, orderData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.data.success) {
+      alert("Order placed successfully!");
+      setCartItems([]);
+      setTotalAmount(0);
+      setBaseTotalAmount(0);
+      setAppliedCoupon(null);
+      setdiscountedamount(0);
+      setcouponCode("");
+      setFormData({
+        name: '',
+        email: '',
+        contact: '',
+        alternativeContact: '',
+        houseno: '',
+        address: '',
+        city: '',
+        pincode: '',
+      });
+      navigate('/myorders');
+    } else {
+      alert("Order failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Order placement failed:", error);
+    alert("Something went wrong while placing the order.");
   }
-  };
-
-
+};
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-2 gap-8">
+      {/* Left: Delivery Details */}
       <div className="bg-white shadow-lg p-6 rounded-xl border border-gray-200">
         <form onSubmit={handleOrder} className="space-y-4">
           <h2 className="text-2xl font-bold mb-4 text-green-600">Delivery Details</h2>
@@ -244,6 +285,8 @@ function Order() {
           </button>
         </form>
       </div>
+
+      {/* Right: Cart Summary */}
       <div className="bg-white shadow-lg p-6 rounded-xl border border-rose-200">
         <h2 className="text-3xl font-bold text-rose-600 mb-6">🛒 Your Cart</h2>
 
@@ -265,28 +308,30 @@ function Order() {
                       <p>Decorations: Glitter, Ribbon</p>
                       <p>Making Cost: Free</p>
                       <div className='flex items-center gap-2'>
-                        <p>Quantity: {item.quantity || 1}</p> 
-                        
-                        <button className='bg-blue-400 w-10 rounded-full' onClick={() => {
-                          const updatedCart = [...cartItems];
-                          updatedCart[idx].quantity = (updatedCart[idx].quantity || 1) + 1;
-                          updateCartTotals(updatedCart);
-                          }}
-                        > + </button>
+                        <p>Quantity: {item.quantity || 1}</p>
 
                         <button
-                          className='bg-blue-400 w-10 rounded-full  disabled:opacity-50'
-                           disabled={(item.quantity || 1) <= 1}
+                          className='bg-blue-400 w-10 rounded-full'
                           onClick={() => {
-                          const updatedCart = [...cartItems];
-                          updatedCart[idx].quantity = (updatedCart[idx].quantity || 1) - 1;
-                          updateCartTotals(updatedCart);
+                            const updatedCart = [...cartItems];
+                            updatedCart[idx].quantity = (updatedCart[idx].quantity || 1) + 1;
+                            updateCartTotals(updatedCart);
+                          }}
+                        >
+                          +
+                        </button>
+
+                        <button
+                          className='bg-blue-400 w-10 rounded-full disabled:opacity-50'
+                          disabled={(item.quantity || 1) <= 1}
+                          onClick={() => {
+                            const updatedCart = [...cartItems];
+                            updatedCart[idx].quantity = (updatedCart[idx].quantity || 1) - 1;
+                            updateCartTotals(updatedCart);
                           }}
                         >
                           -
                         </button>
-
-
                       </div>
                       <p className="font-semibold text-rose-700">₹{item.price}</p>
                     </>
@@ -334,10 +379,9 @@ function Order() {
                 : 'bg-blue-500 hover:bg-pink-600'
             }`}
           >
-            {appliedCoupon ? ( <i>Applied</i>) : ('Apply')}
+            {appliedCoupon ? (<i>Applied</i>) : ('Apply')}
           </button>
         </div>
-
 
         <div className="mt-6 border-t pt-4 text-right space-y-2">
           <h3 className="text-xl font-bold text-rose-700">
@@ -357,7 +401,7 @@ function Order() {
                 <span>
                   🎁<i> {couponCode}</i> applied
                 </span>
-              
+
                 <button
                   onClick={removeCoupon}
                   className="bg-red-500 hover:bg-pink-600 text-white rounded-full px-2 py-1 text-xs"
@@ -371,7 +415,6 @@ function Order() {
             </>
           )}
         </div>
-
       </div>
     </div>
   );

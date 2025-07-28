@@ -1,59 +1,56 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
-
-const upload = require('../middleware/upload');
+const cloudinary = require('../utils/cloudinary');
 const verifyToken = require('../middleware/authMiddleware');
+const uploadProfilePic = require('../middleware/cloudinaryProfileStorage');
 const User = require('../models/UserModel');
 
 const router = express.Router();
 
-router.put('/update-profile', verifyToken, upload.single('profilePicture'), async (req, res) => {
+router.put('/update-profile', verifyToken, uploadProfilePic.single('profilePicture'), async (req, res) => {
   try {
     const { name, phone } = req.body;
-
     const updatedData = { name };
 
     if (typeof phone === 'string' && phone.trim() !== '' && !isNaN(Number(phone))) {
       updatedData.phone = Number(phone);
     }
 
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     if (req.file) {
-      const user = await User.findById(req.user.id);
-      if (user && user.profilePicture) {
-        const oldPath = path.join(__dirname, '..', 'uploads', user.profilePicture);
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
-        }
+      // Delete old Cloudinary image
+      if (user.profilePicture && user.profilePicture.public_id) {
+        await cloudinary.uploader.destroy(user.profilePicture.public_id);
       }
 
-      updatedData.profilePicture = req.file.filename;
+      // Set new Cloudinary image
+      updatedData.profilePicture = {
+        url: req.file.path,
+        public_id: req.file.filename
+      };
     }
+
     const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,         
+      req.user.id,
       updatedData,
       { new: true }
     );
-    console.log("Incoming updated data:", updatedData);
 
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
+    // Send only URL in the response
     let userObj = updatedUser.toObject();
-    if (userObj.profilePicture) {
-      userObj.profilePicture = `${req.protocol}://${req.get('host')}/uploads/${userObj.profilePicture}`;
+    if (userObj.profilePicture && userObj.profilePicture.url) {
+      userObj.profilePicture = userObj.profilePicture.url;
     }
-    res.json({ user: userObj });
-    console.log(userObj)
 
+    res.json({ user: userObj });
   } catch (err) {
     console.error("Update Error:", err.message);
     res.status(500).json({ message: "Update failed" });
   }
-}
-);
+});
 
 module.exports = router;

@@ -12,12 +12,10 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-// ✅ Use only this line for CORS
+// app.use(cors()) 
+
 app.use(cors(corsOptions));
 
-// ❌ Do NOT use app.options('*'...) or app.options('/*'...) — causes crash
-
-// ✅ Optional: fallback for all OPTIONS requests
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', 'https://ourflowerwebsite.vercel.app');
@@ -33,8 +31,13 @@ app.use(express.json());
 
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/products', require('./routes/productRoute'));
+
+
 app.use('/api/cart', require('./routes/cartRoute'));
+
 app.use('/api/order', require('./routes/orderRoute'));
+app.use('/api/products', require('./routes/customProduct')); 
+
 app.use('/api/coupon', require('./routes/couponRoute'));
 app.use('/api/user', require('./routes/user'));
 

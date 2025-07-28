@@ -49,14 +49,19 @@ function ProductManage() {
     productColor: "",
     productPrice: "",
     productStock: "",
-    productImages: null, 
+    productImages: [], 
     productGender: "" 
   });
 
   const handleEditClick = (product) => {
-  setEditingProduct(product._id);
-  setFormData({ ...product });
+    setEditingProduct(product._id);
+    const { productImages, ...rest } = product;
+    setFormData({
+      ...rest,
+      productImages: null 
+    });
   };
+
   const handleChange = (e) => {
     if (e.target.name === "productImages") {
       setFormData({ ...formData, productImages: e.target.files });
@@ -106,7 +111,7 @@ const handleUpdate = async () => {
     productColor: "",
     productPrice: "",
     productStock: "",
-    productImage: null,
+    productImages: [],
     productGender : ""
 
   });
@@ -152,7 +157,7 @@ const handleAddProduct = async (e) => {
       productColor: "",
       productPrice: "",
       productStock: "",
-      productImages: null,
+      productImages: [],
       productGender: ""
     });
     setShowAddForm(false);
@@ -190,14 +195,19 @@ const handleAddProduct = async (e) => {
               products.map((product) => (
                 <tr key={product._id} className="hover:bg-pink-100 transition-all duration-200">
                 <td className="border border-pink-200 px-4 py-3 text-center">
-                  {Array.isArray(product.productImages) && product.productImages.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img.startsWith("http") ? img : `${deployedurl}/uploads/products/${img}`}
-                      alt="Product"
-                      className="w-12 h-12 inline-block object-cover rounded mr-1"
-                    />
-                  ))}
+                  {Array.isArray(product.productImages) && product.productImages.map((img, idx) => {
+                    const imageUrl = typeof img === "string" ? img : (img?.url || "");
+
+                    return (
+                      <img
+                        key={idx}
+                        src={imageUrl.startsWith("http") ? imageUrl : `${deployedurl}/uploads/products/${imageUrl}`}
+                        alt="Product"
+                        className="w-12 h-12 inline-block object-cover rounded mr-1"
+                      />
+                    );
+                  })}
+
                 </td>
                   <td className="border border-pink-200 px-4 py-3 font-semibold text-pink-700">
                     {product.productTitle}

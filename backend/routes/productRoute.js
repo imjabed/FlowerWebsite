@@ -3,6 +3,7 @@ const Router = express.Router();
 const Product = require('../models/ProductModel');
 const verifyAdmin = require('../middleware/adminMiddleware');
 const upload = require('../middleware/cloudinaryStorage'); 
+const cloudinary = require('cloudinary').v2;
 
 // Add Product
 Router.post('/add', verifyAdmin, upload.array('productImages', 5), async (req, res) => {
@@ -10,8 +11,7 @@ Router.post('/add', verifyAdmin, upload.array('productImages', 5), async (req, r
     const productData = req.body;
 
     if (req.files) {
-      // Save array of Cloudinary URLs
-      productData.productImages = req.files.map(file => file.path);
+      productData.productImages = req.files.map(file =>  ({ url: file.path, public_id: file.filename }));
     }
 
     const product = new Product(productData);
@@ -51,7 +51,18 @@ Router.get('/show/:id', async (req, res) => {
 // Delete Product
 Router.delete('/delete/:id', verifyAdmin, async (req, res) => {
   try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    for (const img of product.productImages) {
+      if (img.public_id) {
+        await cloudinary.uploader.destroy(img.public_id);
+      }
+    }
     await Product.findByIdAndDelete(req.params.id);
+    
     res.json({ message: 'Product is deleted' });
   } catch (err) {
     console.error("Delete Error:", err);
@@ -65,7 +76,7 @@ Router.put('/update/:id', verifyAdmin, upload.array('productImages', 5), async (
     const updates = req.body;
 
     if (req.files && req.files.length > 0) {
-      updates.productImages = req.files.map(file => file.path); // Cloudinary URLs
+      updates.productImages = req.files.map(file => ({ url: file.path, public_id: file.filename }) ); 
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(

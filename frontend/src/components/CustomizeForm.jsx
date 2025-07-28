@@ -11,6 +11,8 @@ function CustomizeForm(){
     const [wrapperColor, setwrapperColor] = useState('');
     const [selected, setSelected] = useState(false)
     const [selectedDecorations, setSelectedDecorations] = useState([]);
+    const [makingCostFree, setMakingCostFree] = useState(false);
+    const [price, setPrice] = useState(0);
     const [total, setTotal] = useState(0)
 
     const flowerOptions = ['Red', 'Black', 'Pink'];
@@ -36,64 +38,71 @@ function CustomizeForm(){
         );
     };
     const navigate = useNavigate();
-    const handleAddToCart = async () => {
-        const userId = localStorage.getItem('userId');
-        const customData = {
-            userId,
+    
+    const handleAddToCart = async (e) => {
+        e.preventDefault();
+
+        if (!wrapperColor) {
+            alert("Please select a wrapper color.");
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("Please log in first.");
+            return;
+        }
+
+        try {
+            const createRes = await axios.post(`${deployedurl}/api/products/custom`, {
             flowerCount,
             flowerColor,
             wrapperColor,
             selectedDecorations,
-            makingCostFree: selected,
-            totalPrice: total,
-        };
-        if (flowerColor.length === 0) {
-            alert("Please select at least one flower color.");
-            return; }
-        if (!wrapperColor) {
-        alert("Please select a wrapper color.");
-        return;
-        }
-        if (!selected) {
-            const confirmProceed = window.confirm("Are you sure you want to miss ₹99 off?");
-            if (!confirmProceed) return;
-        }
-
-
-        try {
-            await axios.post(`${deployedurl}/api/cart/custom`, customData, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
+            makingCostFree,
+            totalPrice: total
+            }, {
+            headers: { Authorization: `Bearer ${token}` }
             });
-            alert('Custom bouquet added to cart!');
-            console.log("Sending customData to cart:", customData);
-            navigate('/orderpage', {
-                state: {
-                    items: [customData],
-                    totalAmount: total
-                }
+
+            const customProductId = createRes.data.customProduct._id;
+            
+            await axios.post(`${deployedurl}/api/cart/custom`, {
+                productId: customProductId,
+                flowerCount,
+                flowerColor,
+                wrapperColor,
+                selectedDecorations,
+                makingCostFree,
+                price: total,
+                totalPrice: total,
+                selectedColor: "Custom",
+                quantity: 1
+                }, {
+                headers: { Authorization: `Bearer ${token}` }
                 });
 
+            alert("✅ Custom bouquet added to cart!");
         } catch (err) {
-            console.error("Error adding to cart:", err);
-            alert('Failed to add to cart');
+            console.error("❌ Failed to add custom item to cart:", err);
+            alert("Something went wrong while adding to cart.");
         }
-        };
+    };
 
-    useEffect(()=>{
-        const flowerCost = flowerCount * 30;
-        const wrappersNeeded = Math.ceil(flowerCount / 5);
-        const wrappercost = wrappersNeeded * 20;
-        const making = selected? 0 : 99;
-        const decorationCost = selectedDecorations.reduce((acc, name) => {
-            const item = decorationOptions.find(d => d.name === name);
-            return acc + (item ? item.price : 0);
-        }, 0);
-        const rawTotal = flowerCost + wrappercost + decorationCost + making + 99;
-        
-        setTotal(rawTotal);
-    }, [flowerCount,wrapperColor, selected, selectedDecorations])
+    useEffect(() => {
+    const flowerCost = flowerCount * 30;
+    const wrappersNeeded = Math.ceil(flowerCount / 5);
+    const wrappercost = wrappersNeeded * 20;
+    const making = selected ? 0 : 99;
+    const decorationCost = selectedDecorations.reduce((acc, name) => {
+        const item = decorationOptions.find(d => d.name === name);
+        return acc + (item ? item.price : 0);
+    }, 0);
+    const rawTotal = flowerCost + wrappercost + decorationCost + making + 99;
+
+    setTotal(rawTotal);
+    setPrice(rawTotal); // ✅ This was missing!
+    }, [flowerCount, wrapperColor, selected, selectedDecorations]);
 
     return(
         <>

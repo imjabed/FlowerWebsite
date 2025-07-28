@@ -14,7 +14,8 @@ function Login(){
         e.preventDefault();
         try {
             const res = await axios.post(`${deployedurl}/api/auth/login`, formData);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("user", JSON.stringify(res.data.user)); 
+            localStorage.setItem("userId", res.data.user.id);          
             localStorage.setItem("token", res.data.token);
 
             alert('Login Successful');
